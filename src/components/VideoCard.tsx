@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Play, Plus, ThumbsUp, ChevronDown } from 'lucide-react';
+import { Play, Plus, Check, ThumbsUp, ChevronDown } from 'lucide-react';
 import { useVideoStore } from '../store/videoStore';
 
 interface VideoCardProps {
@@ -18,7 +18,17 @@ interface VideoCardProps {
 
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { openVideo } = useVideoStore();
+  const { openVideo, addToMyList, removeFromMyList, isInMyList } = useVideoStore();
+  
+  const inMyList = isInMyList(video.id);
+
+  const handleAddToList = () => {
+    if (inMyList) {
+      removeFromMyList(video.id);
+    } else {
+      addToMyList(video);
+    }
+  };
 
   return (
     <div 
@@ -53,8 +63,15 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
                   <Play size={16} fill="currentColor" />
                 </button>
                 
-                <button className="flex items-center justify-center w-8 h-8 border-2 border-gray-400 text-gray-400 rounded-full hover:border-white hover:text-white transition-colors">
-                  <Plus size={16} />
+                <button 
+                  onClick={handleAddToList}
+                  className={`flex items-center justify-center w-8 h-8 border-2 rounded-full transition-colors ${
+                    inMyList 
+                      ? 'border-green-400 text-green-400 hover:border-green-300 hover:text-green-300' 
+                      : 'border-gray-400 text-gray-400 hover:border-white hover:text-white'
+                  }`}
+                >
+                  {inMyList ? <Check size={16} /> : <Plus size={16} />}
                 </button>
                 
                 <button className="flex items-center justify-center w-8 h-8 border-2 border-gray-400 text-gray-400 rounded-full hover:border-white hover:text-white transition-colors">

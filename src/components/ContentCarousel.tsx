@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoCard from './VideoCard';
 import { mockContent } from '../data/mockContent';
+import { useVideoStore } from '../store/videoStore';
 
 interface ContentCarouselProps {
   title: string;
@@ -12,14 +13,23 @@ interface ContentCarouselProps {
 const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, category }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [content, setContent] = useState<any[]>([]);
+  const { myList } = useVideoStore();
 
   useEffect(() => {
-    // Filter content by category
-    const filteredContent = mockContent.filter(item => 
-      item.categories.includes(category) || category === 'trending'
-    );
+    let filteredContent;
+    
+    if (category === 'mylist') {
+      filteredContent = myList;
+    } else {
+      // Filter content by category
+      filteredContent = mockContent.filter(item => 
+        item.categories.includes(category) || category === 'trending'
+      );
+    }
+    
     setContent(filteredContent);
-  }, [category]);
+    setCurrentIndex(0); // Reset index when content changes
+  }, [category, myList]);
 
   const itemsPerPage = window.innerWidth < 768 ? 2 : window.innerWidth < 1024 ? 3 : 5;
   const maxIndex = Math.max(0, content.length - itemsPerPage);
@@ -32,7 +42,19 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ title, category }) =>
     setCurrentIndex(prev => Math.max(prev - 1, 0));
   };
 
-  if (content.length === 0) return null;
+  if (content.length === 0) {
+    if (category === 'mylist') {
+      return (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-4 px-4 md:px-0">{title}</h2>
+          <div className="px-4 md:px-0">
+            <p className="text-gray-400">La tua lista è vuota. Aggiungi video cliccando il pulsante + sui contenuti.</p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
 
   return (
     <div className="mb-12">
