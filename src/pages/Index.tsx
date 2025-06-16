@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import ContentCarousel from '../components/ContentCarousel';
+import GoldrakeCard from '../components/GoldrakeCard';
 import VideoModal from '../components/VideoModal';
 import { useVideoStore } from '../store/videoStore';
 
@@ -15,6 +16,8 @@ const Index = () => {
       <HeroSection />
       
       <div className="px-4 md:px-12 pb-20">
+        <GoldrakeCard />
+        
         <ContentCarousel 
           title="Trending Now" 
           category="trending"
