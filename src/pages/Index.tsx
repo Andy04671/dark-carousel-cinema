@@ -27,10 +27,12 @@ const Index = () => {
           title="Animated Series" 
           category="animation"
         />
-        <ContentCarousel 
-          title="My List" 
-          category="mylist"
-        />
+        <div data-section="mylist">
+          <ContentCarousel 
+            title="My List" 
+            category="mylist"
+          />
+        </div>
       </div>
 
       {isModalOpen && selectedVideo && (

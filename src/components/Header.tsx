@@ -6,6 +6,15 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const handleMyListClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Scroll to the My List section
+    const myListSection = document.querySelector('[data-section="mylist"]');
+    if (myListSection) {
+      myListSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/90 to-transparent">
       <div className="flex items-center justify-between px-4 md:px-12 py-4">
@@ -26,7 +35,11 @@ const Header = () => {
             <a href="#movies" className="text-white hover:text-gray-300 transition-colors">
               Movies
             </a>
-            <a href="#mylist" className="text-white hover:text-gray-300 transition-colors">
+            <a 
+              href="#mylist" 
+              onClick={handleMyListClick}
+              className="text-white hover:text-gray-300 transition-colors"
+            >
               My List
             </a>
           </nav>
