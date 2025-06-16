@@ -1,12 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Header from '../components/Header';
+import HeroSection from '../components/HeroSection';
+import ContentCarousel from '../components/ContentCarousel';
+import VideoModal from '../components/VideoModal';
+import { useVideoStore } from '../store/videoStore';
 
 const Index = () => {
+  const { selectedVideo, isModalOpen } = useVideoStore();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-black text-white">
+      <Header />
+      <HeroSection />
+      
+      <div className="px-4 md:px-12 pb-20">
+        <ContentCarousel 
+          title="Trending Now" 
+          category="trending"
+        />
+        <ContentCarousel 
+          title="Action Movies" 
+          category="action"
+        />
+        <ContentCarousel 
+          title="Animated Series" 
+          category="animation"
+        />
+        <ContentCarousel 
+          title="My List" 
+          category="mylist"
+        />
       </div>
+
+      {isModalOpen && selectedVideo && (
+        <VideoModal video={selectedVideo} />
+      )}
     </div>
   );
 };
