@@ -21,7 +21,7 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center space-x-8">
           <Link to="/" className="text-red-600 text-2xl font-bold">
-            NETSTREAM
+            ANDYFLIX
           </Link>
           
           {/* Navigation */}
